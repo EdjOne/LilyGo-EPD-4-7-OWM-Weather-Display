@@ -58,8 +58,8 @@ float humidity_readings[max_readings]    = {0};
 float rain_readings[max_readings]        = {0};
 float snow_readings[max_readings]        = {0};
 
-long SleepDuration   = 60; // Sleep time in minutes, aligned to the nearest minute boundary, so if 30 will always update at 00 or 30 past the hour
-int  WakeupHour      = 8;  // Wakeup after 07:00 to save battery power
+long SleepDuration   = 20; // Sleep time in minutes, aligned to the nearest minute boundary, so if 30 will always update at 00 or 30 past the hour
+int  WakeupHour      = 7;  // Wakeup after 07:00 to save battery power
 int  SleepHour       = 23; // Sleep  after 23:00 to save battery power
 long StartTime       = 0;
 long SleepTimer      = 0;
@@ -353,7 +353,8 @@ void DisplayMainWeatherSection(int x, int y) {
 }
 
 void DisplayDisplayWindSection(int x, int y, float angle, float windspeed, int Cradius) {
-  arrow(x, y, Cradius - 22, angle, 18, 33); // Show wind direction on outer circle of width and length
+ // arrow(x, y, Cradius - 22, angle, 18, 33); // Show wind direction on outer circle of width and length
+  arrow(x, y, Cradius, angle, 18, 33); // Show wind direction on outer circle of width and length
   setFont(OpenSans8B);
   int dxo, dyo, dxi, dyi;
   drawCircle(x, y, Cradius, Black);       // Draw compass circle
@@ -601,18 +602,28 @@ void DisplayConditionsSection(int x, int y, String IconName, bool IconSize) {
 }
 
 void arrow(int x, int y, int asize, float aangle, int pwidth, int plength) {
-  float dx = (asize - 10) * cos((aangle - 90) * PI / 180) + x; // calculate X position
-  float dy = (asize - 10) * sin((aangle - 90) * PI / 180) + y; // calculate Y position
+// fdufnews change made in order to have the arrow pointing the direction the wind goes to
+//  float dx = (asize - 10) * cos((aangle - 90) * PI / 180) + x; // calculate X position
+  float dx = (asize+5) * cos((aangle - 90) * PI / 180) + x; // calculate X position
+// fdufnews change made in order to have the arrow pointing the direction the wind goes to
+//  float dy = (asize - 10) * sin((aangle - 90) * PI / 180) + y; // calculate Y position
+  float dy = (asize+5) * sin((aangle - 90) * PI / 180) + y; // calculate Y position
+//  Serial.println("x    y    asize  dx      dy");
+//  Serial.println(String(x)+" "+String(y)+" "+String(asize)+" "+String(dx)+" "+String(dy));
   float x1 = 0;         float y1 = plength;
   float x2 = pwidth / 2;  float y2 = pwidth / 2;
   float x3 = -pwidth / 2; float y3 = pwidth / 2;
-  float angle = aangle * PI / 180 - 135;
+// fdufnews change made in order to have the arrow pointing the direction the wind goes to
+//  float angle = aangle * PI / 180 - 135;
+  float angle = aangle * PI / 180;
   float xx1 = x1 * cos(angle) - y1 * sin(angle) + dx;
   float yy1 = y1 * cos(angle) + x1 * sin(angle) + dy;
   float xx2 = x2 * cos(angle) - y2 * sin(angle) + dx;
   float yy2 = y2 * cos(angle) + x2 * sin(angle) + dy;
   float xx3 = x3 * cos(angle) - y3 * sin(angle) + dx;
   float yy3 = y3 * cos(angle) + x3 * sin(angle) + dy;
+//  Serial.println("xx1   yy1   xx2   yy2   xx3   yy3");
+//  Serial.println(String(xx1)+" "+String(yy1)+" "+String(xx2)+" "+String(yy2)+" "+String(xx3)+" "+String(yy3));
   fillTriangle(xx1, yy1, xx3, yy3, xx2, yy2, Black);
 }
 
