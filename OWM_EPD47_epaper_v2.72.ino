@@ -20,11 +20,12 @@
 #include "forecast_record.h"
 #include "lang.h"
 
+
 #define SCREEN_WIDTH   EPD_WIDTH
 #define SCREEN_HEIGHT  EPD_HEIGHT
 
 //################  VERSION  ##################################################
-String version = "2.7 / 4.7in";  // Programme version, see change log at end
+String version = "2.72 / 4.7in";  // Programme version, see change log at end
 //################ VARIABLES ##################################################
 
 enum alignment {LEFT, RIGHT, CENTER};
@@ -448,8 +449,12 @@ void DisplayVisiCCoverUVISection(int x, int y) {
   setFont(OpenSans12B);
   Serial.print("=========================="); Serial.println(WxConditions[0].Visibility);
   Visibility(x + 5, y, String(WxConditions[0].Visibility) + "M");
-  CloudCover(x + 155, y, WxConditions[0].Cloudcover);
-  Display_UVIndexLevel(x + 265, y, WxConditions[0].UVI);
+  //CloudCover(x + 155, y, WxConditions[0].Cloudcover);
+  //Display_UVIndexLevel(x + 265, y, WxConditions[0].UVI);
+  Display_UVIndexLevel(x + 150, y, WxConditions[0].UVI);
+  //CloudCover(x + 265, y, WxConditions[0].Cloudcover);
+  
+  if (WxConditions[0].Cloudcover > 0) CloudCover(x + 290, y, WxConditions[0].Cloudcover);
 }
 
 void Display_UVIndexLevel(int x, int y, float UVI) {
