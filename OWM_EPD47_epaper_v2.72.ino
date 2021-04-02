@@ -453,8 +453,7 @@ void DisplayVisiCCoverUVISection(int x, int y) {
   //Display_UVIndexLevel(x + 265, y, WxConditions[0].UVI);
   Display_UVIndexLevel(x + 150, y, WxConditions[0].UVI);
   //CloudCover(x + 265, y, WxConditions[0].Cloudcover);
-  
-  if (WxConditions[0].Cloudcover > 0) CloudCover(x + 290, y, WxConditions[0].Cloudcover);
+  if (WxConditions[0].Cloudcover > 0) CloudCover(x + 290, y, WxConditions[0].Cloudcover);   // Hide cloude cover if less than 0
 }
 
 void Display_UVIndexLevel(int x, int y, float UVI) {
